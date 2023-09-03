@@ -7,6 +7,7 @@ import {
   getAllUsersFromDBService,
   getSingleUserFromDBService,
   updateSingleUserFromDBService,
+  deleteByIdFromDBService,
 } from "./user.service";
 
 export const signUpUserController: RequestHandler = catchAsync(
@@ -60,6 +61,20 @@ export const updateSingleUserController: RequestHandler = catchAsync(
       statusCode: httpStatus.OK,
       success: true,
       message: "user updated successfully !",
+      data: result,
+    });
+  }
+);
+
+export const deleteSingleUserController: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const result = await deleteByIdFromDBService(id);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "user deleted successfully !",
       data: result,
     });
   }

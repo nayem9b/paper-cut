@@ -34,3 +34,12 @@ export const updateSingleUserFromDBService = async (
   });
   return result;
 };
+
+export const deleteByIdFromDBService = async (id: string): Promise<User> => {
+  const result = await prisma.user.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
