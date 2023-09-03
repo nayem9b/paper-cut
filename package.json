@@ -1,9 +1,10 @@
 {
   "name": "paper--trails-serverside",
   "version": "1.0.0",
-  "description": "",
+  "description": "<!-- ### Create Private Repo with this [link](https://classroom.github.com/a/le5T8iGk)\r [https://classroom.github.com/a/le5T8iGk](https://classroom.github.com/a/le5T8iGk) -->",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon ./src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,8 +22,12 @@
     "express": "^4.18.2",
     "http-status": "^1.6.2",
     "jsonwebtoken": "^9.0.2",
+    "ts-node-dev": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.9",
     "prisma": "^5.2.0",
-    "ts-node-dev": "^2.0.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
 }
