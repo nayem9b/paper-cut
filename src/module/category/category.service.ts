@@ -13,6 +13,15 @@ export const getAllCategoryFromDBService = async () => {
   return result;
 };
 
+export const getSingleCategoryFromDBService = async (id: string) => {
+  const result = await prisma.category.findUnique({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
 export const updateCategoryFromDBService = async (
   id: string,
   payload: Partial<Category>
@@ -22,6 +31,17 @@ export const updateCategoryFromDBService = async (
       id,
     },
     data: payload,
+  });
+  return result;
+};
+
+export const deleteCategoryFromDBService = async (
+  id: string
+): Promise<Category> => {
+  const result = await prisma.category.delete({
+    where: {
+      id,
+    },
   });
   return result;
 };
