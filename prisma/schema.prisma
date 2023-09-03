@@ -13,4 +13,44 @@ datasource db {
 model Category {
   id    String @id @default(uuid())
   title String
+  Book  Book[]
+
+  @@map("category")
+}
+
+model User {
+  id         String @id @default(uuid())
+  name       String
+  email      String
+  password   String
+  role       Role   @default(customer)
+  contactNo  String
+  address    String
+  profileImg String
+
+  @@map("user")
+}
+
+model Book {
+  id              String   @id @default(uuid())
+  title           String
+  author          String
+  price           Int
+  genre           String
+  publicationDate String
+  categoryId      String
+  category        Category @relation(fields: [categoryId], references: [id])
+
+  @@map("book")
+}
+
+model ReviewAndRating {
+  id     String @id @default(uuid())
+  review String
+  rating Int    @default(5)
+}
+
+enum Role {
+  admin
+  customer
 }
