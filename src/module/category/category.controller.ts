@@ -67,7 +67,7 @@ export const deleteCategoryController = catchAsync(
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "category updated successfully",
+      message: "category deleted successfully",
       data: result,
     });
   }
