@@ -8,7 +8,9 @@ import {
   getSingleUserFromDBService,
   updateSingleUserFromDBService,
   deleteByIdFromDBService,
+  loginUserToDB,
 } from "./user.service";
+import config from "../../config";
 
 export const signUpUserController: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -23,6 +25,27 @@ export const signUpUserController: RequestHandler = catchAsync(
     });
   }
 );
+
+export const loginUser = catchAsync(async (req: Request, res: Response) => {
+  const { ...loginData } = req.body;
+  const result = await loginUserToDB(loginData);
+  console.log(result?.accessToken, result?.refreshToken);
+  const accessToken = result?.accessToken;
+
+  const refreshToken = result?.refreshToken;
+
+  // const cookieOptions = {
+  //   secure: config.env === "production",
+  //   httpOnly: true,
+  // };
+  // res.cookie("refreshToken", refreshToken, cookieOptions);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User logged in successfully",
+    token: accessToken,
+  });
+});
 
 export const getAllUsersController: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
