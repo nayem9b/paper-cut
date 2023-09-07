@@ -7,12 +7,14 @@ import {
   deleteSingleUserController,
   loginUser,
 } from "./user.controller";
+import auth from "../../middlewares/auth";
+import { ENUM_USER_ROLE } from "../../enums/user";
 
 const router = express.Router();
 
 router.post("/auth/signup", signUpUserController);
 router.post("/auth/signin", loginUser);
-router.get("/users", getAllUsersController);
+router.get("/users", auth(ENUM_USER_ROLE.ADMIN), getAllUsersController);
 router.get("/users/:id", getSingleUserController);
 router.patch("/users/:id", updateSingleUserController);
 router.delete("/users/:id", deleteSingleUserController);
