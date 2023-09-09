@@ -1,8 +1,9 @@
-import { Book, Category } from "@prisma/client";
+import { Book, Category, Prisma } from "@prisma/client";
 import prisma from "../../shared/prisma";
-import { IBookFilterRequest } from "./book.constant";
+import { IBookFilterRequest, bookSearchableFields } from "./book.constant";
 import { IPaginationOptions } from "../../interfaces/pagination";
 import { paginationHelpers } from "../../helpers/paginationHelper";
+import { IGenericResponse } from "../../interface/common";
 
 export const addBookToDBService = async (data: Book): Promise<Book> => {
   const result = prisma.book.create({
@@ -17,16 +18,66 @@ export const addBookToDBService = async (data: Book): Promise<Book> => {
 export const getAllBooksFromDBService = async (
   filters: IBookFilterRequest,
   options: IPaginationOptions
-) => {
+): Promise<IGenericResponse<Book[]>> => {
   const { page, limit, skip } = paginationHelpers.calculatePagination(options);
-  // console.log(page, limit, skip);
-  // console.log(filters);
+  const { search, ...filtersData } = filters;
+  console.log(filtersData);
+  const andConditions = [];
+
+  if (search) {
+    andConditions.push({
+      OR: bookSearchableFields.map((field) => ({
+        [field]: {
+          contains: search,
+          mode: "insensitive",
+        },
+      })),
+    });
+  }
+
+  if (Object.keys(filtersData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filtersData).map((key) => ({
+        [key]: {
+          equals: (filtersData as any)[key],
+        },
+      })),
+    });
+  }
+  const whereConditions: Prisma.BookWhereInput =
+    andConditions.length > 0 ? { AND: andConditions } : {};
+
+  console.log(JSON.stringify(andConditions));
+  console.log(JSON.stringify(whereConditions));
   const result = await prisma.book.findMany({
-    include: {
-      category: true,
-    },
+    // where: {
+    //   AND: [
+    //     {
+    //       OR: [
+    //         { title: { contains: "Humayon Ahmed", mode: "insensitive" } },
+    //         { author: { contains: "Humayon Ahmed", mode: "insensitive" } },
+    //         { genre: { contains: "Humayon Ahmed", mode: "insensitive" } },
+    //         // { category: { contains: "Humayon Ahmed", mode: "insensitive" } },
+    //       ],
+    //     },
+    //     {
+    //       AND: [
+    //         { title: { equals: "Murakami" } },
+    //         { author: { equals: "Kafka" } },
+    //       ],
+    //     },
+    //   ],
+    // },
+    where: whereConditions,
   });
-  return result;
+
+  return {
+    meta: {
+      page,
+      limit,
+    },
+    data: result,
+  };
 };
 
 export const getAllBooksofCategoryService = async (id: string) => {

@@ -1,17 +1,17 @@
-export const bookSearchableFields = ["title", "author", "genre", "category"];
+export const bookSearchableFields = ["title", "author", "genre", "categoryId"];
 
 export const bookFilterableFields = [
-  "page",
-  "size",
-  "sortBy",
-  "sortOrder",
-  "minPrice",
-  "maxPrice",
-  "category",
+  "search",
+  "title",
+  "author",
+  "genre",
+  "categoryId",
 ];
 
 export type IBookFilterRequest = {
-  searchTerm?: string;
   search?: string;
+  title?: string;
+  author?: string;
+  genre?: string;
   category?: string;
 };

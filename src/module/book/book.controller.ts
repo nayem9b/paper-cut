@@ -29,14 +29,14 @@ export const addBookController = catchAsync(
 export const getAllBooksController = catchAsync(
   async (req: Request, res: Response) => {
     const filters = pick(req.query, bookFilterableFields);
-    const paginationOptions = pick(req.query, bookSearchableFields);
-    console.log(filters, paginationOptions);
-    const result = await getAllBooksFromDBService(filters, paginationOptions);
+    const options = pick(req.query, paginationFields);
+    const result = await getAllBooksFromDBService(filters, options);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: "books fetched successfully",
-      data: result,
+      // meta: result.meta,
+      data: result.data,
     });
   }
 );

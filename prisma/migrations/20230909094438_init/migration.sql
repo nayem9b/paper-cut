@@ -2,6 +2,14 @@
 CREATE TYPE "Role" AS ENUM ('admin', 'customer');
 
 -- CreateTable
+CREATE TABLE "category" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+
+    CONSTRAINT "category_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "user" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
