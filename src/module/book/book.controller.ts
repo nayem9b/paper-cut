@@ -35,7 +35,7 @@ export const getAllBooksController = catchAsync(
       statusCode: httpStatus.OK,
       success: true,
       message: "books fetched successfully",
-      // meta: result.meta,
+      meta: result.meta,
       data: result.data,
     });
   }

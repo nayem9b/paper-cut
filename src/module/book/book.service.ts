@@ -50,29 +50,23 @@ export const getAllBooksFromDBService = async (
   console.log(JSON.stringify(andConditions));
   console.log(JSON.stringify(whereConditions));
   const result = await prisma.book.findMany({
-    // where: {
-    //   AND: [
-    //     {
-    //       OR: [
-    //         { title: { contains: "Humayon Ahmed", mode: "insensitive" } },
-    //         { author: { contains: "Humayon Ahmed", mode: "insensitive" } },
-    //         { genre: { contains: "Humayon Ahmed", mode: "insensitive" } },
-    //         // { category: { contains: "Humayon Ahmed", mode: "insensitive" } },
-    //       ],
-    //     },
-    //     {
-    //       AND: [
-    //         { title: { equals: "Murakami" } },
-    //         { author: { equals: "Kafka" } },
-    //       ],
-    //     },
-    //   ],
-    // },
+    where: whereConditions,
+    include: {
+      category: true,
+    },
+    take: limit,
+    skip,
+    orderBy:
+      options.sortBy && options.sortOrder
+        ? { [options.sortBy]: options.sortOrder }
+        : {},
+  });
+  const total: number = await prisma.book.count({
     where: whereConditions,
   });
-
   return {
     meta: {
+      total,
       page,
       limit,
     },
