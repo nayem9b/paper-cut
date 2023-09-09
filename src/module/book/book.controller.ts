@@ -11,6 +11,9 @@ import {
   getAllBooksofCategoryService,
 } from "./book.service";
 import { deleteCategoryFromDBService } from "../category/category.service";
+import pick from "../../shared/pick";
+import { bookFilterableFields, bookSearchableFields } from "./book.constant";
+import { paginationFields } from "../../constants/pagination";
 
 export const addBookController = catchAsync(
   async (req: Request, res: Response) => {
@@ -25,7 +28,10 @@ export const addBookController = catchAsync(
 );
 export const getAllBooksController = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await getAllBooksFromDBService();
+    const filters = pick(req.query, bookFilterableFields);
+    const paginationOptions = pick(req.query, bookSearchableFields);
+    console.log(filters, paginationOptions);
+    const result = await getAllBooksFromDBService(filters, paginationOptions);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,

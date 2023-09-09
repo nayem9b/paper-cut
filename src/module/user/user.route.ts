@@ -16,6 +16,14 @@ router.post("/auth/signup", signUpUserController);
 router.post("/auth/signin", loginUser);
 router.get("/users", auth(ENUM_USER_ROLE.ADMIN), getAllUsersController);
 router.get("/users/:id", getSingleUserController);
-router.patch("/users/:id", updateSingleUserController);
-router.delete("/users/:id", deleteSingleUserController);
+router.patch(
+  "/users/:id",
+  auth(ENUM_USER_ROLE.ADMIN),
+  updateSingleUserController
+);
+router.delete(
+  "/users/:id",
+  auth(ENUM_USER_ROLE.ADMIN),
+  deleteSingleUserController
+);
 export const userRoutes = router;
