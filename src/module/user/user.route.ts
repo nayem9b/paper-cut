@@ -16,7 +16,7 @@ const router = express.Router();
 router.post("/auth/signup", signUpUserController);
 router.post("/auth/signin", loginUser);
 router.get("/users", auth(ENUM_USER_ROLE.ADMIN), getAllUsersController);
-router.get("/users/:id", getSingleUserController);
+router.get("/users/:id", auth(ENUM_USER_ROLE.ADMIN), getSingleUserController);
 router.get("/profile", getProfileInfoController);
 router.patch(
   "/users/:id",
