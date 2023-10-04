@@ -4,8 +4,10 @@
   "description": "<!-- ### Create Private Repo with this [link](https://classroom.github.com/a/le5T8iGk)\r [https://classroom.github.com/a/le5T8iGk](https://classroom.github.com/a/le5T8iGk) -->",
   "main": "index.js",
   "scripts": {
+    "start": "node dist/server.js",
     "dev": "nodemon ./src/server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
