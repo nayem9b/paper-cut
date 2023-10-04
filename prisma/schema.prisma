@@ -54,3 +54,19 @@ enum Role {
   admin
   customer
 }
+
+model Order {
+  id           String   @id @default(uuid())
+  userId       String   @default(uuid())
+  orderedBooks Json
+  status       Status   @default(pending)
+  createdAt    DateTime @default(now())
+
+  @@map("order")
+}
+
+enum Status {
+  pending
+  shipped
+  delivered
+}
