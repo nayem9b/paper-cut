@@ -9,8 +9,9 @@ import {
   updateSingleUserFromDBService,
   deleteByIdFromDBService,
   loginUserToDB,
+  getProfileDataFromDB,
 } from "./user.service";
-import config from "../../config";
+import { decodedToken } from "../../helpers/jwtHelpers";
 
 export const signUpUserController: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -93,6 +94,20 @@ export const deleteSingleUserController: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const id = req.params.id;
     const result = await deleteByIdFromDBService(id);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "user deleted successfully !",
+      data: result,
+    });
+  }
+);
+export const getProfileInfoController: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const profileinfo = decodedToken(req.headers.authorization as string);
+    const { userId }: any = profileinfo;
+    const result = await getProfileDataFromDB(userId);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,

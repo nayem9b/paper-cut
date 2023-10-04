@@ -27,6 +27,15 @@ export const getSingleUserFromDBService = async (id: string) => {
   return result;
 };
 
+export const getProfileDataFromDB = async (userId: string) => {
+  const result = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+  return result;
+};
+
 export const updateSingleUserFromDBService = async (
   id: string,
   payload: Partial<User>
