@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("I'm working");
+  res.send("Welcome to Paper Cut");
 });
 
 export default app;

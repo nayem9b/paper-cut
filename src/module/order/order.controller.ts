@@ -16,7 +16,6 @@ export const postOrderController = catchAsync(
     const decodedToken = (token: string) => {
       return jwtDecode(token);
     };
-
     const userinfo = decodedToken(req.headers.authorization as string);
     const orderedBooks = req?.body;
     const result = await postOrderToDBService(
@@ -49,7 +48,7 @@ export const getAllOrdersController = catchAsync(
 export const getSingleOrderbyOrderIdController = catchAsync(
   async (req: Request, res: Response) => {
     const userinfo = decodedToken(req.headers.authorization as string);
-    const orderId = req.params?.orderId; 
+    const orderId = req.params?.orderId;
     const result = await getOrdersOfCustomerByOrderIdFromDB(
       userinfo as UserInfo,
       orderId as string

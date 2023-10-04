@@ -9,11 +9,7 @@ import { ENUM_USER_ROLE } from "../../enums/user";
 
 const router = express.Router();
 
-router.post(
-  "/orders/create-order",
-  auth(ENUM_USER_ROLE.CUSTOMER),
-  postOrderController
-);
+router.post("/orders/create-order", postOrderController);
 router.get("/orders", getAllOrdersController);
 router.get("/orders/:orderId", getSingleOrderbyOrderIdController);
 

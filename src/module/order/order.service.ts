@@ -9,16 +9,20 @@ interface UserInfo {
 export const postOrderToDBService = async (
   userInfo: UserInfo,
   orderedBooks: Order
-): Promise<Order> => {
-  console.log(orderedBooks);
-  console.log(userInfo.userId);
-  const result = prisma.order.create({
-    data: {
-      userId: userInfo.userId,
-      orderedBooks: orderedBooks,
-    },
-  });
-  return result;
+) => {
+  if (userInfo.role === "customer") {
+    const result = prisma.order.create({
+      data: {
+        userId: userInfo.userId,
+        orderedBooks: orderedBooks,
+      },
+    });
+    return result;
+  } else {
+    return {
+      data: "You are not authorized",
+    };
+  }
 };
 
 export const getAllOrdersByAdmin = async (userInfo: UserInfo) => {
