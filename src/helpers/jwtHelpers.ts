@@ -1,5 +1,6 @@
 import { JwtPayload, Secret } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
+import jwtDecode from "jwt-decode";
 
 export const createToken = (
   payload: Record<string, unknown>,
@@ -13,4 +14,8 @@ export const createToken = (
 
 export const verifyToken = (token: string, secret: Secret): JwtPayload => {
   return jwt.verify(token, secret) as JwtPayload;
+};
+
+export const decodedToken = (token: string) => {
+  return jwtDecode(token);
 };
